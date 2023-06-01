@@ -1,3 +1,5 @@
+/* Prints the three-digit input number with its digits reversed */
+
 #include <stdio.h>
 
 int main(void)
