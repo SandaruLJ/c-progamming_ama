@@ -15,6 +15,8 @@ int main(void)
 
     if (hour > 12)
         hour -= 12;
+    else if (hour == 0)
+        hour = 12;
 
     printf("Equivalent 12-hour time: %.2d:%.2d ", hour, minute);
     printf(pm ? "PM\n" : "AM\n");
