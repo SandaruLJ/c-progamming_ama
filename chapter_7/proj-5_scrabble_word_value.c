@@ -17,23 +17,26 @@ int main(void)
     {
         input = toupper(getchar());
         
-        if (input < 65 || input > 90)
+        if (input < 'A' || input > 'Z')
             break;
 
-        if (input == 81 || input == 90)
-            sum += 10;
-        else if (input == 74 || input == 88)
-            sum += 8;
-        else if (input == 75)
-            sum += 5;
-        else if (input == 70 || input == 72 || (input >= 86 && input <= 89))
-            sum += 4;
-        else if (input == 66 || input == 67 || input == 77 || input == 80)
-            sum += 3;
-        else if (input == 68 || input == 71)
-            sum += 2;
-        else
-            sum += 1;
+        switch (input)
+        {
+            case 'Q': case 'Z':
+                sum += 10; break;
+            case 'J': case 'X':
+                sum += 8; break;
+            case 'K':
+                sum += 5; break;
+            case 'F': case 'H': case 'V': case 'W': case 'Y':
+                sum += 4; break;
+            case 'B': case 'C': case 'M': case 'P':
+                sum += 3; break;
+            case 'D': case 'G':
+                sum += 2; break;
+            default:
+                sum++; break;
+        }
     }
 
     printf("Scrabble value: %hd\n", sum);
