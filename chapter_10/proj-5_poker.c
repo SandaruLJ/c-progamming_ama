@@ -117,7 +117,7 @@ void read_cards(void)
  **********************************************************/
 void analyze_hand(void)
 {
-	int num_consec;
+	int num_consec = 0;
 	int rank, suit;
 
 	straight = false;
@@ -133,7 +133,6 @@ void analyze_hand(void)
 
 	/* check for straight */
 	rank = 0;
-	num_consec = 0;
 	while (num_in_rank[rank] == 0) rank++;
 	for (; rank < NUM_RANKS && num_in_rank[rank] > 0; rank++)
 		num_consec++;
@@ -143,19 +142,9 @@ void analyze_hand(void)
 		return;
 	}
 
-	/* check for ace-low straights */
-	num_consec = 0;
-	for (int i = 0, rank = NUM_RANKS - 1; i < NUM_CARDS; i++, rank++)
-	{
-		if (num_in_rank[rank] == 1)
-			num_consec++;
-		
-		// wrap around from ace to rank 2
-		if (rank == NUM_RANKS - 1)
-			rank = -1;
-	}
-	
-	if (num_consec == NUM_CARDS)
+	/* check for ace-low straight */
+	if (num_consec == NUM_CARDS - 1 &&
+		num_in_rank[0] == 1 && num_in_rank[NUM_RANKS - 1] > 0)
 	{
 		straight = true;
 		return;
