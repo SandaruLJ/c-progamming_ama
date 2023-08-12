@@ -26,9 +26,9 @@ int main(void)
 
 int read_msg(int len, char message[len])
 {
-    int idx = 0;
+    int real_len = 0;
 
-    for (; idx < len; idx++)
+    for (char *p = message; p < message + len; p++)
     {
         char ch = tolower(getchar());
 
@@ -36,18 +36,21 @@ int read_msg(int len, char message[len])
             break;
 
         if (isalpha(ch))
-            message[idx] = ch;
+        {
+            *p = ch;
+            real_len++;
+        }
         else
-            idx--;
+            p--;
     }
 
-    return idx;
+    return real_len;
 }
 
 bool check_palindrome(int len, char message[len])
 {
-    for (int i = 0; i < len; i++)
-        if (!(message[i] == message[(len - 1) - i]))
+    for (char *p = message; p < message + len; p++)
+        if (!(*p == *(message + (len - 1) - (p - message))))
             return false;
 
     return true;
