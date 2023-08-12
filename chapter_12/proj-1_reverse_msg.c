@@ -23,23 +23,24 @@ int main(void)
 
 int read_msg(char message[], int max_len)
 {
-    int idx = 0;
+    int len = 0;
 
-    for (; idx < max_len; idx++)
+    for (char *p = message; p < message + max_len; p++)
     {
         char ch = getchar();
 
         if (ch == '\n')
             break;
 
-        message[idx] = ch;
+        *p = ch;
+        len++;
     }
 
-    return idx;
+    return len;
 }
 
 void reverse_msg(char message[], int len)
 {
-    for (int i = len - 1; i >= 0; i--)
-        putchar(message[i]);
+    for (char *p = message + len - 1; p >= message; p--)
+        putchar(*p);
 }
