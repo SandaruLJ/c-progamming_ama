@@ -32,5 +32,4 @@ void write_line(void);
  **********************************************************/
 void flush_line(void);
 
-
 #endif
