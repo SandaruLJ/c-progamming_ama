@@ -5,7 +5,7 @@
 #include "readline.h"
 
 #define NAME_LEN 25
-#define MAX_PARTS 100
+#define INITIAL_PARTS 10
 
 struct part {
     int number;
@@ -14,7 +14,7 @@ struct part {
 } *inventory;
 
 int num_parts = 0;  /* number of parts currently stored */
-int parts_allocated = 10;  // number of parts memory is allocated for
+int parts_allocated = INITIAL_PARTS;  // number of parts memory is allocated for
 
 int find_part(int number);
 void insert(void);
@@ -35,6 +35,10 @@ int main(void)
 
     // allocate memory for an initial number of parts
     inventory = malloc(sizeof(struct part) * parts_allocated);
+    if (inventory == NULL) {
+        printf("Cannot allocate memory for initial inventory.\n");
+        exit(EXIT_FAILURE);
+    }
 
     for (;;) {
         printf("Enter operation code: ");
@@ -84,11 +88,17 @@ int find_part(int number)
 void insert(void)
 {
     int part_number;
+    struct part *new;  // temporary pointer in case memory allocation fails
 
     // reallocate memory if array is filled
     if (num_parts == parts_allocated) {
         parts_allocated += parts_allocated;  // double the size
-        inventory = realloc(inventory, sizeof(struct part) * parts_allocated);
+        new = realloc(inventory, sizeof(struct part) * parts_allocated);
+        if (new == NULL) {
+            printf("Insufficient memory; cannot add more parts.\n");
+            return;
+        }
+        inventory = new;
     }
 
     printf("Enter part number: ");
